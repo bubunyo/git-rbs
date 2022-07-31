@@ -2,6 +2,11 @@
 
 Type `git recent` to see your latest local git branches, use you arrow keys to select a branch, hit enter to switch branches
 
+## Prerequisites
+
+You must have `git` installed
+
+
 ## Usage
 
     git recent
@@ -14,7 +19,7 @@ or copy `git-recent` into an existing included path like `/usr/local/bin` or `~/
 
 On Mac, you can install with homebrew:
 
-    brew install git-recent
+    brew install git-recent-select
 
 
 ## License
