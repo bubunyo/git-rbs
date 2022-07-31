@@ -1,11 +1,9 @@
 package main
 
 import (
-	"context"
-
-	gr "github.com/bubunyo/git-recent-select"
+	grs "github.com/bubunyo/git-recent-select"
 )
 
 func main() {
-	gr.Run(context.Background())
+	grs.Run()
 }

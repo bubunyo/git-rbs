@@ -1,4 +1,4 @@
-module github.com/bubunyo/git-recent
+module github.com/bubunyo/git-recent-select
 
 go 1.18
 
