@@ -1,4 +1,4 @@
-module github.com/bubunyo/git-recent-select
+module github.com/bubunyo/rbs
 
 go 1.18
 

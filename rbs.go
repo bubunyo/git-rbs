@@ -1,4 +1,4 @@
-package git_recent_select
+package rbs
 
 import (
 	"fmt"

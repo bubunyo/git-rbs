@@ -1,4 +1,4 @@
-# git-recent-select
+# `rbs` - A recent branch selector for git 
 
 Type `rbs` to see your latest local git branches, use you arrow keys to select a branch, hit enter to switch branches
 
@@ -17,7 +17,7 @@ Use the command `rbs` in any git enabled folder
 Installing for both mac and linux
 
 ```
-curl -sL https://raw.githubusercontent.com/bubunyo/git-recent-select/master/install.sh | bash
+curl -sL https://raw.githubusercontent.com/bubunyo/rbs/master/install.sh | bash
 ```
 
 ## License

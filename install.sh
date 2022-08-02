@@ -218,9 +218,9 @@ hash_sha256_verify() {
   fi
 }
 
-PROJECT_NAME="git-recent-select"
+PROJECT_NAME="rbs"
 OWNER=bubunyo
-REPO="git-recent-select"
+REPO="rbs"
 BINARY=rbs
 FORMAT=tar.gz
 OS=$(uname_os)
