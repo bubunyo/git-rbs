@@ -21,6 +21,7 @@ jobs:
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v3
         with:
+          project_name: rbs
           distribution: goreleaser
           version: latest
           args: release --rm-dist
