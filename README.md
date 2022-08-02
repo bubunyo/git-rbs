@@ -30,3 +30,6 @@ Copyright Bubunyo Nyavor. Licensed under MIT.
 ## Changelog
 
 - **2022-08-01** - Released in standalone repo and published to homebrew
+
+####
+curl -sL https://raw.githubusercontent.com/bubunyo/git-recent-select/master/install.sh | bash
