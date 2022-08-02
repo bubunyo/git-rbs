@@ -1,6 +1,6 @@
 # git-recent-select
 
-Type `git recent` to see your latest local git branches, use you arrow keys to select a branch, hit enter to switch branches
+Type `rbs` to see your latest local git branches, use you arrow keys to select a branch, hit enter to switch branches
 
 ## Prerequisites
 
@@ -9,27 +9,18 @@ You must have `git` installed
 
 ## Usage
 
-    git recent
+Use the command `rbs` in any git enabled folder
 
 
 ### Installation
 
-You can add the `git-recent` location to your path (e.g. add the directory to your `PATH` environment
-or copy `git-recent` into an existing included path like `/usr/local/bin` or `~/bin/`).
+Installing for both mac and linux
 
-On Mac, you can install with homebrew:
-
-    brew install git-recent-select
-
+```
+curl -sL https://raw.githubusercontent.com/bubunyo/git-recent-select/master/install.sh | bash
+```
 
 ## License
 
 Copyright Bubunyo Nyavor. Licensed under MIT.
 
-
-## Changelog
-
-- **2022-08-01** - Released in standalone repo and published to homebrew
-
-####
-curl -sL https://raw.githubusercontent.com/bubunyo/git-recent-select/master/install.sh | bash
