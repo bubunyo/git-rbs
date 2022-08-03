@@ -6,12 +6,6 @@ Type `git r` to see your latest local git branches, use you arrow keys to select
 
 You must have `git` installed
 
-
-## Usage
-
-Use the command `git r` in any git enabled folder
-
-
 ### Installation
 
 Installing for both mac and linux
@@ -19,6 +13,11 @@ Installing for both mac and linux
 ```
 curl -sL https://raw.githubusercontent.com/bubunyo/git-rbs/master/install.sh | bash
 ```
+
+## Usage
+
+Use the command `git r` in any git enabled folder
+
 
 ## License
 
