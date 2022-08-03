@@ -17,7 +17,7 @@ Use the command `git r` in any git enabled folder
 Installing for both mac and linux
 
 ```
-curl -sL https://raw.githubusercontent.com/bubunyo/rbs/master/install.sh | bash
+curl -sL https://raw.githubusercontent.com/bubunyo/git-rbs/master/install.sh | bash
 ```
 
 ## License
