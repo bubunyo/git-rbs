@@ -1,4 +1,4 @@
-module github.com/bubunyo/rbs
+module github.com/bubunyo/git-rbs
 
 go 1.18
 

@@ -1,6 +1,6 @@
-# `rbs` - A recent branch selector for git 
+# `git-rbs` - A recent branch selector for git 
 
-Type `rbs` to see your latest local git branches, use you arrow keys to select a branch, hit enter to switch branches
+Type `git r` to see your latest local git branches, use you arrow keys to select a branch, hit enter to switch branches
 
 ## Prerequisites
 
@@ -9,7 +9,7 @@ You must have `git` installed
 
 ## Usage
 
-Use the command `rbs` in any git enabled folder
+Use the command `git r` in any git enabled folder
 
 
 ### Installation

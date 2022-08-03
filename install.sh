@@ -16,13 +16,17 @@ execute() {
   srcdir="${tmpdir}"
   (cd "${tmpdir}" && untar "${TARBALL}")
   install -d "${BINDIR}"
-  for binexe in "rbs" ; do
+  for binexe in "git-rbs" ; do
     if [ "$OS" = "windows" ]; then
       binexe="${binexe}.exe"
     fi
     install "${srcdir}/${binexe}" "${BINDIR}/"
     echo "installed ${BINDIR}/${binexe}"
   done
+}
+
+set_git_shortcut() {
+  git config --global alias.r '!/usr/local/bin/$BINARY'
 }
 
 is_supported_platform() {
@@ -221,10 +225,10 @@ hash_sha256_verify() {
   fi
 }
 
-PROJECT_NAME="rbs"
+PROJECT_NAME="git-rbs"
 OWNER=bubunyo
-REPO="rbs"
-BINARY=rbs
+REPO="git-rbs"
+BINARY=git-rbs
 FORMAT=tar.gz
 OS=$(uname_os)
 ARCH=$(uname_arch)
@@ -239,7 +243,6 @@ check_platform
 
 tag_to_version
 
-
 echo "found version: ${VERSION} for ${TAG}/${OS}/${ARCH}"
 
 NAME=${PROJECT_NAME}_${VERSION}_${OS}_${ARCH}
@@ -249,3 +252,5 @@ CHECKSUM=${PROJECT_NAME}_${VERSION}_checksums.txt
 CHECKSUM_URL=${GITHUB_DOWNLOAD}/${TAG}/${CHECKSUM}
 
 execute
+
+set_git_shortcut

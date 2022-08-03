@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/bubunyo/rbs"
+	rbs "github.com/bubunyo/git-rbs"
 )
 
 func main() {
