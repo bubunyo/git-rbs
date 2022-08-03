@@ -2,6 +2,8 @@
 
 Type `git r` to see your latest local git branches, use you arrow keys to select a branch, hit enter to switch branches
 
+![Screenshot](./ezgif-1-158cd90bca.gif)
+
 ## Prerequisites
 
 You must have `git` installed
