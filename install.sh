@@ -26,7 +26,7 @@ execute() {
 }
 
 set_git_shortcut() {
-  git config --global alias.r '!/usr/local/bin/$BINARY'
+  git config --global alias.r '!/usr/local/bin/${BINARY}'
 }
 
 is_supported_platform() {
