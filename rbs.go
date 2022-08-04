@@ -9,14 +9,17 @@ import (
 )
 
 type branch struct {
-	RelativeTime string
+	ObjectName   string
 	Name         string
-	Author       string
+	RelativeTime string
+	Track        string
+	Subject      string
 }
 
 func Run() {
-	// format eg 25 minutes ago|master|Bubunyo Nyavor
-	resFormat := `"%(committerdate:relative)|%(refname:short)|%(authorname)"`
+	// command -  git branch --sort=-committerdate
+	// --format="%(committerdate:unix)|%(committerdate:relative)|%(refname:short)|%(authorname)|%(contents:subject)|%(objectname:short)"
+	resFormat := `%(objectname:short)|%(refname:short)|%(committerdate:relative)|%(upstream:track)|%(contents:subject)`
 	cmd := exec.Command("git", "branch",
 		"--sort=-committerdate",
 		"--format="+resFormat)
@@ -39,7 +42,7 @@ func Run() {
 			continue
 		}
 		p := strings.Split(v, "|")
-		branches = append(branches, branch{p[0], p[1], p[2]})
+		branches = append(branches, branch{p[0], p[1], p[2], p[3], p[4]})
 		if len(p[1]) > branchNameMaxLen {
 			branchNameMaxLen = len(p[1])
 		}
@@ -47,8 +50,8 @@ func Run() {
 
 	templates := &promptui.SelectTemplates{
 		Label:    "{{ . }}?",
-		Active:   "\U0000279C ({{ .RelativeTime | red }}) {{ .Name | green }}",
-		Inactive: "  ({{ .RelativeTime | red | faint }}) {{ .Name | cyan | faint }}",
+		Active:   "\U0000279C [{{ .ObjectName | yellow }}] {{ .Name | green }} ({{ .RelativeTime | cyan }}) - {{ .Track | magenta }} {{ .Subject }}",
+		Inactive: "  [{{ .ObjectName | yellow | faint }}] {{ .Name | green | faint  }} ({{ .RelativeTime | cyan | faint }}) - {{ .Track | magenta | faint }} {{ .Subject | faint }}",
 		Selected: "git checkout {{ .Name | green | cyan }}",
 	}
 
