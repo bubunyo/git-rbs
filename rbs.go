@@ -50,8 +50,8 @@ func Run() {
 
 	templates := &promptui.SelectTemplates{
 		Label:    "{{ . }}?",
-		Active:   "\U0000279C [{{ .ObjectName | yellow }}] {{ .Name | green }} ({{ .RelativeTime | cyan }}) - {{ .Track | magenta }} {{ .Subject }}",
-		Inactive: "  [{{ .ObjectName | yellow | faint }}] {{ .Name | green | faint  }} ({{ .RelativeTime | cyan | faint }}) - {{ .Track | magenta | faint }} {{ .Subject | faint }}",
+		Active:   "\U0000279C [{{ .ObjectName | yellow }}] {{ .Name | green }} ({{ .RelativeTime | cyan }}) -{{if ne .Track \"\" }} {{ .Track | magenta }}{{end}} {{ .Subject }}",
+		Inactive: "  [{{ .ObjectName | yellow | faint }}] {{ .Name | green | faint  }} ({{ .RelativeTime | cyan | faint }}) -{{if ne .Track \"\" }} {{ .Track | magenta | faint }}{{end}} {{ .Subject | faint }}",
 		Selected: "git checkout {{ .Name | green | cyan }}",
 	}
 
