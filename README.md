@@ -1,6 +1,7 @@
 # `git-rbs` - A recent branch selector for git 
 
-Type `git r` to see your latest local git branches, use you arrow keys to select a branch, hit enter to switch branches
+Type `git r` to see your latest local git branches, use you arrow keys to select a branch, hit enter to switch branches. 
+Inspired by [Aaron Patterson's Tweet](https://twitter.com/tenderlove/status/1392957802163802112)
 
 ![Screenshot](./ezgif-5-b13ba6b781.gif)
 
