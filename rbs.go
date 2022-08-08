@@ -57,8 +57,8 @@ func Run() {
 
 	searcher := func(input string, index int) bool {
 		branch := branches[index]
-		name := strings.Replace(strings.ToLower(branch.Name), " ", "", -1)
-		input = strings.Replace(strings.ToLower(input), " ", "", -1)
+		name := strings.ReplaceAll(strings.ToLower(branch.Name), " ", "")
+		input = strings.ReplaceAll(strings.ToLower(input), " ", "")
 
 		return strings.Contains(name, input)
 	}
