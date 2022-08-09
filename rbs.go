@@ -3,6 +3,7 @@ package rbs
 import (
 	"fmt"
 	"os/exec"
+	"regexp"
 	"strings"
 
 	"github.com/manifoldco/promptui"
@@ -57,8 +58,19 @@ func Run() {
 
 	searcher := func(input string, index int) bool {
 		branch := branches[index]
-		name := strings.Replace(strings.ToLower(branch.Name), " ", "", -1)
-		input = strings.Replace(strings.ToLower(input), " ", "", -1)
+		name := strings.ReplaceAll(strings.ToLower(branch.Name), " ", "")
+		query := strings.Split(input, " ")
+
+		if query[0] == "$regex" && len(query) > 1 {
+			input = query[1]
+			reg, err := regexp.Compile(input)
+			if err != nil {
+				return false
+			}
+			return reg.MatchString(name)
+		}
+
+		input = strings.ReplaceAll(strings.ToLower(input), " ", "")
 
 		return strings.Contains(name, input)
 	}
