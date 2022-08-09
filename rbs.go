@@ -58,7 +58,7 @@ func Run() {
 
 	searcher := func(input string, index int) bool {
 		branch := branches[index]
-		name := strings.Replace(strings.ToLower(branch.Name), " ", "", -1)
+		name := strings.ReplaceAll(strings.ToLower(branch.Name), " ", "")
 		query := strings.Split(input, " ")
 
 		if query[0] == "$regex" && len(query) > 1 {
@@ -70,7 +70,7 @@ func Run() {
 			return reg.MatchString(name)
 		}
 
-		input = strings.Replace(strings.ToLower(input), " ", "", -1)
+		input = strings.ReplaceAll(strings.ToLower(input), " ", "")
 
 		return strings.Contains(name, input)
 	}

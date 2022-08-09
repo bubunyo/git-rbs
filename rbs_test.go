@@ -34,7 +34,7 @@ func TestSearcher(t *testing.T) {
 	}
 
 	//match branch names container numbers
-	matchedNumBranches := [2]string{"banda005", "323232"}
+	matchedNumBranches := [2]string{}
 	expectedNumBranches := [2]string{"banda005", "323232"}
 	count = 0
 	for key, value := range branches {
@@ -60,6 +60,7 @@ func TestSearcher(t *testing.T) {
 	}
 }
 
+//I had to
 func searcher(input string, index int) bool {
 	branch := branches[index]
 	name := strings.ReplaceAll(strings.ToLower(branch), " ", "")
