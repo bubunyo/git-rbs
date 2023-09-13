@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-BINDIR="/usr/local/bin"
+BINDIR="~/.local/bin"
 
 # this function wraps all the destructive operations
 # if a curl|bash cuts off the end of the script due to
@@ -26,7 +26,7 @@ execute() {
 }
 
 set_git_shortcut() {
-  git config --global alias.r '!/usr/local/bin/git-rbs'
+  git config --global alias.r '!~/.local/bin/git-rbs'
 }
 
 is_supported_platform() {
