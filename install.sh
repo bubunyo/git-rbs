@@ -20,7 +20,10 @@ execute() {
     if [ "$OS" = "windows" ]; then
       binexe="${binexe}.exe"
     fi
-    install "${srcdir}/${binexe}" "${BINDIR}/"
+    if ! install "${srcdir}/${binexe}" "${BINDIR}/" 2>/dev/null; then
+      echo "install command failed, using mv as fallback"
+      mv "${srcdir}/${binexe}" "${BINDIR}/"
+    fi
     echo "installed ${BINDIR}/${binexe}"
   done
 }
