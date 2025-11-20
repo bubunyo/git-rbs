@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-BINDIR="~/.local/bin"
+BINDIR="$HOME/.local/bin"
 
 # this function wraps all the destructive operations
 # if a curl|bash cuts off the end of the script due to
