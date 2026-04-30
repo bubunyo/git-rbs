@@ -93,10 +93,10 @@ func Run() {
 	}
 }
 
-// RunWorktree presents an interactive branch selector and adds the chosen
-// branch as a new git worktree at ../<branch-name> (relative to the repo
-// root), replacing forward-slashes in the branch name with dashes so that
-// the directory name is always valid.
+// RunWorktree presents an interactive branch selector and automatically adds
+// the chosen branch as a new git worktree at ../<branch-name> (a sibling
+// directory next to the current repo), replacing forward-slashes in the
+// branch name with dashes so that the directory name is always valid.
 func RunWorktree() {
 	branches, err := listBranches()
 	if err != nil {
@@ -112,27 +112,17 @@ func RunWorktree() {
 
 	selected := branches[i]
 
-	// Build the worktree path: sibling directory named after the branch
-	// (slashes replaced with dashes to keep the path component simple).
+	// Automatically derive the worktree path: sibling directory named after
+	// the branch (slashes replaced with dashes to keep the path component simple).
 	dirName := strings.ReplaceAll(selected.Name, "/", "-")
 	worktreePath := filepath.Join("..", dirName)
 
-	prompt := promptui.Prompt{
-		Label:   "Worktree path",
-		Default: worktreePath,
-	}
-	path, err := prompt.Run()
-	if err != nil {
-		fmt.Printf("Prompt failed %v\n", err)
-		return
-	}
-
-	cmd := exec.Command("git", "worktree", "add", path, selected.Name)
+	cmd := exec.Command("git", "worktree", "add", worktreePath, selected.Name)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Printf("Error: %s", string(out))
 	} else {
-		fmt.Printf("Worktree created at %s\n", path)
+		fmt.Printf("Worktree created at %s\n", worktreePath)
 		fmt.Print(string(out))
 	}
 }
