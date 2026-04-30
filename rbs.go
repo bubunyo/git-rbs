@@ -3,6 +3,7 @@ package rbs
 import (
 	"fmt"
 	"os/exec"
+	"path/filepath"
 	"strings"
 
 	"github.com/manifoldco/promptui"
@@ -16,9 +17,7 @@ type branch struct {
 	Subject      string
 }
 
-func Run() {
-	// command -  git branch --sort=-committerdate
-	// --format="%(committerdate:unix)|%(committerdate:relative)|%(refname:short)|%(authorname)|%(contents:subject)|%(objectname:short)"
+func listBranches() ([]branch, error) {
 	resFormat := `%(objectname:short)|%(refname:short)|%(committerdate:relative)|%(upstream:track)|%(contents:subject)`
 	cmd := exec.Command("git", "branch",
 		"--sort=-committerdate",
@@ -26,45 +25,42 @@ func Run() {
 
 	stdout, err := cmd.Output()
 	if err != nil {
-		fmt.Println(err.Error())
-		return
+		return nil, err
 	}
 
 	out := strings.Split(string(stdout), "\n")
-
 	branches := []branch{}
-
-	var branchNameMaxLen int
-
 	for _, v := range out {
 		v := strings.TrimSpace(v)
 		if v == "" {
 			continue
 		}
 		p := strings.Split(v, "|")
-		branches = append(branches, branch{p[0], p[1], p[2], p[3], p[4]})
-		if len(p[1]) > branchNameMaxLen {
-			branchNameMaxLen = len(p[1])
+		if len(p) < 5 {
+			continue
 		}
+		branches = append(branches, branch{p[0], p[1], p[2], p[3], p[4]})
 	}
+	return branches, nil
+}
 
+func branchSelectPrompt(label string, branches []branch, selectedTpl string) (int, error) {
 	templates := &promptui.SelectTemplates{
 		Label:    "{{ . }}?",
 		Active:   "\U0000279C [{{ .ObjectName | yellow }}] {{ .Name | green }} ({{ .RelativeTime | cyan }}) -{{if ne .Track \"\" }} {{ .Track | magenta }}{{end}} {{ .Subject }}",
 		Inactive: "  [{{ .ObjectName | yellow | faint }}] {{ .Name | green | faint  }} ({{ .RelativeTime | cyan | faint }}) -{{if ne .Track \"\" }} {{ .Track | magenta | faint }}{{end}} {{ .Subject | faint }}",
-		Selected: "git checkout {{ .Name | green | cyan }}",
+		Selected: selectedTpl,
 	}
 
 	searcher := func(input string, index int) bool {
-		branch := branches[index]
-		name := strings.Replace(strings.ToLower(branch.Name), " ", "", -1)
+		b := branches[index]
+		name := strings.Replace(strings.ToLower(b.Name), " ", "", -1)
 		input = strings.Replace(strings.ToLower(input), " ", "", -1)
-
 		return strings.Contains(name, input)
 	}
 
 	prompt := promptui.Select{
-		Label:     "Select git branch:",
+		Label:     label,
 		Items:     branches,
 		Templates: templates,
 		Size:      10,
@@ -72,18 +68,71 @@ func Run() {
 	}
 
 	i, _, err := prompt.Run()
+	return i, err
+}
 
+func Run() {
+	branches, err := listBranches()
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	i, err := branchSelectPrompt("Select git branch:", branches, "git checkout {{ .Name | green | cyan }}")
 	if err != nil {
 		fmt.Printf("Prompt failed %v\n", err)
 		return
 	}
 
-	cmd = exec.Command("git", "checkout", branches[i].Name)
-
-	stdout, err = cmd.Output()
+	cmd := exec.Command("git", "checkout", branches[i].Name)
+	out, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error: %s", err.Error())
+		fmt.Printf("Error: %s", string(out))
 	} else {
-		fmt.Print(string(stdout))
+		fmt.Print(string(out))
+	}
+}
+
+// RunWorktree presents an interactive branch selector and adds the chosen
+// branch as a new git worktree at ../<branch-name> (relative to the repo
+// root), replacing forward-slashes in the branch name with dashes so that
+// the directory name is always valid.
+func RunWorktree() {
+	branches, err := listBranches()
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	i, err := branchSelectPrompt("Select branch for new worktree:", branches, "git worktree add {{ .Name | green | cyan }}")
+	if err != nil {
+		fmt.Printf("Prompt failed %v\n", err)
+		return
+	}
+
+	selected := branches[i]
+
+	// Build the worktree path: sibling directory named after the branch
+	// (slashes replaced with dashes to keep the path component simple).
+	dirName := strings.ReplaceAll(selected.Name, "/", "-")
+	worktreePath := filepath.Join("..", dirName)
+
+	prompt := promptui.Prompt{
+		Label:   "Worktree path",
+		Default: worktreePath,
+	}
+	path, err := prompt.Run()
+	if err != nil {
+		fmt.Printf("Prompt failed %v\n", err)
+		return
+	}
+
+	cmd := exec.Command("git", "worktree", "add", path, selected.Name)
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Error: %s", string(out))
+	} else {
+		fmt.Printf("Worktree created at %s\n", path)
+		fmt.Print(string(out))
 	}
 }
